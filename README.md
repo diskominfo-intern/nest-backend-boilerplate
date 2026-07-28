@@ -25,6 +25,29 @@ Jika Anda ditugaskan untuk membuat proyek backend baru berdasarkan kerangka ini,
 
 ---
 
+## 🌐 Panduan Deployment ke cPanel Diskominfo (1 Slot Node.js App)
+
+Untuk mempublikasikan (*deploy*) backend NestJS ini ke cPanel Diskominfo bersama dengan frontend Next.js menggunakan **1 Slot Node.js App (Phusion Passenger)** tanpa akses SSH:
+
+1. **Kompilasi Build**:
+   ```bash
+   npm run build
+   ```
+   Hasil kompilasi TypeScript akan tersimpan di folder `dist/`.
+
+2. **Migrasi & Seed Database dari Lokal**:
+   Hubungkan `DATABASE_URL` di file `.env` ke MySQL cPanel (izinkan IP lokal Anda di menu **Remote MySQL** cPanel):
+   ```bash
+   npx prisma db push
+   npx prisma db seed
+   ```
+
+3. **Deploy & Master Gateway**:
+   Backend akan dijalankan di port internal (misal `3002`) oleh Master Gateway (`app.js`).
+   Panduan lengkap 1-click packing (`deploy-cpanel.tar.gz`) dapat dilihat pada repositori blueprint **[how-to-deploy](https://github.com/diskominfo-intern/how-to-deploy)**.
+
+---
+
 ## 📂 Panduan Navigasi Direktori (PENTING!)
 
 Seluruh kode Anda akan hidup di dalam folder `src/`. Kami membagi kode menjadi dua bagian utama: **`core/`** dan **`modules/`**.
