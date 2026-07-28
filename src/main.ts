@@ -10,8 +10,9 @@ import { apiReference } from '@scalar/nestjs-api-reference';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. Enable CORS for frontend integration
+  // 1. Enable CORS & Global API Prefix (/api)
   app.enableCors();
+  app.setGlobalPrefix('api');
 
   // 2. Global Validation Pipe (sebagai pengganti manual Joi/Zod)
   app.useGlobalPipes(
