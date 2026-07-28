@@ -1,6 +1,7 @@
 import { PrismaService } from '../../core/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { PaginationDto } from '../../core/dto/pagination.dto';
 export declare class ProductService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -11,7 +12,7 @@ export declare class ProductService {
         updatedAt: Date;
         id: number;
     }>;
-    findAll(paginationDto: import('../../core/dto/pagination.dto').PaginationDto): Promise<{
+    findAll(paginationDto: PaginationDto): Promise<{
         data: {
             name: string;
             price: number;
