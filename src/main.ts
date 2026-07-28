@@ -31,27 +31,26 @@ async function bootstrap() {
   // 4. Global Interceptor (Untuk standardisasi Success Response)
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  // 5. OpenAPI Setup (with Scalar UI)
-  const config = new DocumentBuilder()
-    .setTitle('Backend API')
-    .setDescription('API Documentation for Boilerplate')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  // 5. OpenAPI Setup (with Scalar UI - Disembunyikan di Production)
+  if (process.env.NODE_ENV !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('Backend API')
+      .setDescription('API Documentation for Boilerplate')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
 
-  // Create document as before
-  const document = SwaggerModule.createDocument(app, config);
+    const document = SwaggerModule.createDocument(app, config);
 
-  // Use Scalar instead of Swagger UI
-
-  app.use(
-    '/api-docs',
-    apiReference({
-      spec: {
-        content: document,
-      },
-    }),
-  );
+    app.use(
+      '/api-docs',
+      apiReference({
+        spec: {
+          content: document,
+        },
+      }),
+    );
+  }
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
