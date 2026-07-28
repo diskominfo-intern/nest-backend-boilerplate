@@ -38,12 +38,12 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  
+
   // Create document as before
   const document = SwaggerModule.createDocument(app, config);
-  
+
   // Use Scalar instead of Swagger UI
-  
+
   app.use(
     '/api-docs',
     apiReference({
@@ -53,7 +53,8 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
-  console.log(`Application is running on: http://localhost:3000`);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`Application is running on: http://localhost:${port}`);
 }
 bootstrap();
