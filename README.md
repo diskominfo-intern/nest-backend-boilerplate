@@ -25,26 +25,23 @@ Jika Anda ditugaskan untuk membuat proyek backend baru berdasarkan kerangka ini,
 
 ---
 
-## 🌐 Panduan Deployment ke cPanel Diskominfo (1 Slot Node.js App)
+## 🌐 Panduan Deployment ke cPanel Diskominfo
 
-Untuk mempublikasikan (*deploy*) backend NestJS ini ke cPanel Diskominfo bersama dengan frontend Next.js menggunakan **1 Slot Node.js App (Phusion Passenger)** tanpa akses SSH:
+### 📱 Opsi A: Standalone Backend Only (API Only / Untuk Mobile App Flutter/React Native)
+Jika aplikasi ini **hanya digunakan sebagai REST API murni** (misal untuk konsumsi Mobile App Android/iOS tanpa frontend Next.js di cPanel):
+1. Jalankan `npm run build` di lokal.
+2. Upload folder `dist/`, `node_modules/` (atau jalankan npm install di cPanel), `package.json`, `prisma/`, dan `.env` ke folder cPanel (misal `/home/user/api`).
+3. Di menu cPanel **Setup Node.js App**:
+   - **Application Root**: `api`
+   - **Application Startup File**: `dist/main.js`
 
-1. **Kompilasi Build**:
-   ```bash
-   npm run build
-   ```
-   Hasil kompilasi TypeScript akan tersimpan di folder `dist/`.
+---
 
-2. **Migrasi & Seed Database dari Lokal**:
-   Hubungkan `DATABASE_URL` di file `.env` ke MySQL cPanel (izinkan IP lokal Anda di menu **Remote MySQL** cPanel):
-   ```bash
-   npx prisma db push
-   npx prisma db seed
-   ```
-
-3. **Deploy & Master Gateway**:
-   Backend akan dijalankan di port internal (misal `3002`) oleh Master Gateway (`app.js`).
-   Panduan lengkap 1-click packing (`deploy-cpanel.tar.gz`) dapat dilihat pada repositori blueprint **[how-to-deploy](https://github.com/diskominfo-intern/how-to-deploy)**.
+### 🌐 Opsi B: Fullstack Gabungan dengan Frontend Next.js (1 Slot Node.js App)
+Jika backend ini ingin di-deploy **bersama dengan frontend Next.js dalam 1 slot Node.js App yang sama**:
+1. **Kompilasi Build**: Jalankan `npm run build` di lokal. Hasil kompilasi tersimpan di `dist/`.
+2. **Migrasi & Seed Database dari Lokal**: Hubungkan `DATABASE_URL` di `.env` ke MySQL cPanel lalu jalankan `npx prisma db push` & `npx prisma db seed`.
+3. **Deploy & Master Gateway**: Backend akan dijalankan di port internal (misal `3002`) oleh Master Gateway (`app.js`). Panduan lengkap 1-click packing (`deploy-cpanel.tar.gz`) dapat dilihat pada repositori blueprint **[how-to-deploy](https://github.com/diskominfo-intern/how-to-deploy)**.
 
 ---
 
