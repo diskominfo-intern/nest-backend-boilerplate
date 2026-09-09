@@ -1,0 +1,11 @@
+# ==============================================================================
+# CODEOWNERS - NEST-BACKEND-BOILERPLATE
+# ==============================================================================
+# File bootstrap server & konfigurasi dasar berikut dilindungi dan HANYA boleh
+# diubah atas persetujuan dari Lead Deployment / Maintainer: @PangeranJJ4321
+# ==============================================================================
+
+/src/main.ts              @PangeranJJ4321
+/package.json             @PangeranJJ4321
+/prisma/schema.prisma     @PangeranJJ4321
+/.env.example             @PangeranJJ4321

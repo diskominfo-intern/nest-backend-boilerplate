@@ -1,3 +1,27 @@
+/**
+ * ==============================================================================
+ * ?? PERINGATAN KERAS / BACA SEBELUM MENGUBAH FILE INI! ??
+ * ==============================================================================
+ * File ini adalah Bootstrap Utama NestJS Server.
+ * Pemilik / Maintainer: @PangeranJJ4321
+ *
+ * ATURAN MUTLAK:
+ * 1. DILARANG MENGGANTI blok CORS di bawah ini dengan whitelist array statis/kaku!
+ *    CORS di bawah sudah dikonfigurasi otomatis meloloskan:
+ *    - Seluruh domain/subdomain *.makassarkota.go.id
+ *    - Localhost port berapa pun
+ *    - Request cURL/Postman/Cron
+ *    Jika Anda ganti dengan array kaku (misal ada trailing slash '/'),
+ *    aplikasi AKAN DIBLOKIR CORS OLEH BROWSER saat di-deploy!
+ *
+ * 2. DILARANG MENGHAPUS 'app.setGlobalPrefix("api")'!
+ *    Semua endpoint WAJIB beralamat di prefix /api agar gateway cPanel
+ *    dapat membedakan rute frontend dan backend.
+ *
+ * 3. Koding fitur baru (Controller, Service, Module) buatlah di 'src/modules/'
+ *    JANGAN mengutak-atik middleware inti bootstrap ini!
+ * ==============================================================================
+ */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -101,3 +125,4 @@ async function bootstrap() {
   console.log(`Application is running on: http://localhost:${port}`);
 }
 void bootstrap();
+
