@@ -9,8 +9,40 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. Enable CORS & Global API Prefix (/api)
-  app.enableCors();
+  // 1. Enable CORS (Bulletproof untuk cPanel, subdomain makassarkota, & localhost)
+  const envFrontendUrls = (process.env.FRONTEND_URL || '')
+    .split(',')
+    .map((url) => url.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+
+  app.enableCors({
+    origin: (origin, callback) => {
+      // Izinkan request tanpa origin (seperti curl, postman, server-to-server, cron)
+      if (!origin) return callback(null, true);
+
+      // Izinkan localhost port berapa pun (3000, 3001, 5173, dll)
+      if (/^https?:\/\/localhost(:\d+)?$/.test(origin) || /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      // Otomatis izinkan semua domain & subdomain *.makassarkota.go.id
+      try {
+        const url = new URL(origin);
+        if (url.hostname.endsWith('makassarkota.go.id')) {
+          return callback(null, true);
+        }
+      } catch {}
+
+      // Izinkan URL spesifik yang didaftarkan di FRONTEND_URL (.env)
+      const cleanOrigin = origin.replace(/\/+$/, '');
+      if (envFrontendUrls.includes(cleanOrigin)) {
+        return callback(null, true);
+      }
+
+      callback(new Error('CORS blocked for origin: ' + origin));
+    },
+    credentials: true,
+  });
   app.setGlobalPrefix('api');
 
   // 2. Global Validation Pipe (sebagai pengganti manual Joi/Zod)
